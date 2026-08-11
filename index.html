@@ -106,9 +106,9 @@
             height: 100vh;
             max-height: 900px;
             background-color: rgba(8, 5, 17, 0.90);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-radius: 0px;
-            box-shadow: 0 0 50px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -223,39 +223,47 @@
         </header>
 
         <!-- VIEW 1: HOME / MENU UTAMA -->
-        <div id="view-home" class="flex-1 flex flex-col items-center justify-center p-6 text-center overflow-y-auto view-section z-10">
-            <div class="max-w-xs w-full space-y-6">
+        <div id="view-home" class="flex-1 flex flex-col p-5 overflow-y-auto view-section z-10 relative">
+            <!-- Top Bar Menu Utama: Saluran di Kiri Atas, Pengaturan di Kanan Atas -->
+            <div class="flex items-center justify-between w-full pt-1 pb-4">
+                <a href="https://whatsapp.com/channel/0029Vb7pFk81iUxR3V6ydA1e" target="_blank" onclick="playSound('click')" class="px-3 py-1.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 hover:border-emerald-500 text-emerald-300 font-medium text-xs flex items-center space-x-2 transition-all hover:bg-emerald-900/40 active:scale-95 shadow-sm group">
+                    <i class="fa-brands fa-whatsapp text-sm text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                    <span>Saluran</span>
+                </a>
+                <button onclick="playSound('click'); switchView('settings')" class="w-9 h-9 rounded-xl bg-cardbg/80 border border-darkborder hover:border-purple-500/50 flex items-center justify-center text-slate-300 hover:text-white transition-all active:scale-95 shadow-sm group" title="Pengaturan">
+                    <i class="fa-solid fa-gear text-xs text-accent group-hover:rotate-45 transition-transform duration-300"></i>
+                </button>
+            </div>
+
+            <!-- Konten Utama Tengah -->
+            <div class="flex-1 flex flex-col items-center justify-center text-center max-w-xs mx-auto space-y-6 pb-6">
                 <div class="relative w-20 h-20 mx-auto">
                     <div class="absolute inset-0 bg-accent/30 rounded-2xl blur-xl animate-pulse-glow"></div>
-                    <div class="relative w-full h-full rounded-2xl bg-gradient-to-br from-purple-900 via-indigo-900 to-accent flex items-center justify-center shadow-lg shadow-purple-600/30 p-3 border border-purple-400/30 transform hover:scale-105 transition-transform duration-300">
-                        <svg class="w-full h-full text-neonpurple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <div class="relative w-full h-full rounded-2xl bg-gradient-to-br from-purple-900 via-indigo-900 to-accent flex items-center justify-center shadow-xl shadow-purple-600/20 p-3 border border-purple-400/30 transform hover:scale-105 transition-transform duration-300">
+                        <svg class="w-full h-full text-neonpurple drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(139, 92, 246, 0.25)"/>
                             <path d="M12 8v8m-4-4h8" stroke-linecap="round"/>
                         </svg>
                     </div>
                 </div>
                 
-                <div class="space-y-2">
+                <div class="space-y-1.5">
                     <h1 class="text-2xl font-bold tracking-tight text-white bg-gradient-to-r from-white via-purple-200 to-neonpurple bg-clip-text text-transparent">Exelyn Agent</h1>
-                    <p class="text-slate-400 text-xs leading-relaxed">Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities dengan performa tinggi.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed px-1">Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities dengan performa tinggi.</p>
                 </div>
 
-                <div class="grid grid-cols-1 gap-2.5 pt-2">
-                    <button onclick="playSound('click'); switchView('chat')" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white font-medium text-xs flex items-center justify-center space-x-2.5 transition-all shadow-lg shadow-purple-600/30 transform hover:-translate-y-0.5 active:scale-95">
-                        <i class="fa-solid fa-comments text-xs"></i>
+                <div class="grid grid-cols-1 gap-2.5 w-full pt-1">
+                    <button onclick="playSound('click'); switchView('chat')" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white font-semibold text-xs flex items-center justify-center space-x-2.5 transition-all shadow-lg shadow-purple-600/25 transform hover:-translate-y-0.5 active:scale-95 group">
+                        <i class="fa-solid fa-comments text-xs text-purple-200 group-hover:scale-110 transition-transform"></i>
                         <span>Mulai Chatbot AI</span>
                     </button>
-                    <button onclick="playSound('click'); switchView('sandbox')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
-                        <i class="fa-solid fa-code text-xs text-neonpurple"></i>
+                    <button onclick="playSound('click'); switchView('sandbox')" class="w-full py-3.5 px-4 rounded-xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95 group">
+                        <i class="fa-solid fa-code text-xs text-neonpurple group-hover:scale-110 transition-transform"></i>
                         <span>Code Sandbox</span>
                     </button>
-                    <button onclick="playSound('click'); switchView('tools')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
-                        <i class="fa-solid fa-toolbox text-xs text-accent"></i>
+                    <button onclick="playSound('click'); switchView('tools')" class="w-full py-3.5 px-4 rounded-xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95 group">
+                        <i class="fa-solid fa-toolbox text-xs text-accent group-hover:scale-110 transition-transform"></i>
                         <span>Cyber Security Tools</span>
-                    </button>
-                    <button onclick="playSound('click'); switchView('settings')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
-                        <i class="fa-solid fa-gear text-xs text-accent"></i>
-                        <span>Pengaturan & Info</span>
                     </button>
                 </div>
 
@@ -268,7 +276,7 @@
         <!-- VIEW 2: CHAT WORKSPACE -->
         <main id="view-chat" class="flex-1 flex flex-col w-full h-[calc(100vh-53px)] hidden view-section z-10">
             <!-- Sub Bar Chat -->
-            <div class="px-3.5 py-2 bg-cardbg/60 backdrop-blur-md flex items-center justify-between text-[11px]">
+            <div class="px-3.5 py-2 bg-cardbg/60 backdrop-blur-md flex items-center justify-between text-[11px] border-b border-darkborder/50">
                 <div class="flex items-center space-x-1.5">
                     <span class="text-slate-400 font-medium">Mode:</span>
                     <button onclick="playSound('click'); setMode('pentest')" id="mode-pentest" class="px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm">Pentest</button>
@@ -301,7 +309,7 @@
             </div>
 
             <!-- Quick Prompts / Preset Bar -->
-            <div class="px-3.5 py-2 bg-cardbg/30 backdrop-blur-sm overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center">
+            <div class="px-3.5 py-2 bg-cardbg/30 backdrop-blur-sm overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center border-t border-darkborder/30">
                 <span class="text-[9px] text-slate-500 font-mono uppercase tracking-wider mr-1">Preset:</span>
                 <button onclick="playSound('click'); applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-chart text-accent"></i> Analisis SQLi</button>
                 <button onclick="playSound('click'); applyPreset('Berikan contoh payload XSS aman untuk pengujian web')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-shield-virus text-neonpurple"></i> Payload XSS</button>
@@ -611,7 +619,6 @@
             }, 120);
         }
 
-        // Picu efek glitch acak setiap 8 hingga 15 detik secara berkala
         setInterval(() => {
             if (Math.random() > 0.3) {
                 triggerHeaderGlitch();
@@ -619,11 +626,11 @@
         }, 10000);
         // --------------------------------
 
-        // --- MATRIX RAIN SCRIPT LOGIC (WITH MOUSE/TOUCH REACTION) ---
+        // --- MATRIX RAIN SCRIPT LOGIC ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         let matrixInterval = null;
-        let matrixColor = '#c084fc'; // Default neon purple
+        let matrixColor = '#c084fc';
 
         let mouseX = -1000;
         let mouseY = -1000;
@@ -761,7 +768,6 @@
             }
         }
 
-        // --- OPTIMIZED NATURAL & PROFESSIONAL TTS ---
         function speakText(text) {
             if (!('speechSynthesis' in window)) return;
 
@@ -799,7 +805,6 @@
                 window.speechSynthesis.cancel();
             }
         });
-        // --------------------------------------------
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedHistory = localStorage.getItem('exelyn_chat_history');
@@ -1181,7 +1186,7 @@
         });
 
         async function runSandboxCode() {
-            const lang = document.getElementById('sandbox-lang').value;
+            const lang = document.getElementById('sandbox-lang')?.value;
             const code = document.getElementById('sandbox-input').value;
             const consolePre = document.getElementById('sandbox-console');
             const iframe = document.getElementById('sandbox-iframe');
@@ -1240,4 +1245,4 @@
     </script>
 
 </body>
-</html>
+</html
