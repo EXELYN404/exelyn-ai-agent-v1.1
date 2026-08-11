@@ -183,7 +183,6 @@
 </head>
 <body class="selection:bg-purple-600 selection:text-white">
 
-    <!-- Backsound Audio element (autoplay dengan penanganan interaksi pertama halaman) -->
     <audio id="bg-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c89b2518f8.mp3?filename=technology-binary-code-interface-sound-effects-sci-fi-computer-ui-sounds-209403.mp3" type="audio/mpeg">
     </audio>
@@ -485,13 +484,11 @@
         let chatHistory = [];
         let pyodideInstance = null;
 
-        // Auto-play backsound dengan trik listener interaksi universal pertama (klik/sentuh dokumen)
         function initBackgroundAudio() {
             const bgAudio = document.getElementById('bg-audio');
             if (bgAudio) {
                 bgAudio.volume = 0.8;
                 bgAudio.play().then(() => {
-                    // Berhasil diputar, hapus event listener global agar tidak terpanggil berulang
                     window.removeEventListener('click', initBackgroundAudio);
                     window.removeEventListener('touchstart', initBackgroundAudio);
                     window.removeEventListener('keydown', initBackgroundAudio);
@@ -505,9 +502,7 @@
             const bgAudio = document.getElementById('bg-audio');
             if (bgAudio) {
                 bgAudio.volume = 0.8;
-                // Coba putar langsung saat halaman termuat
                 bgAudio.play().catch(() => {
-                    // Jika diblokir, pasang listener interaksi pertama di dokumen tanpa menampilkan tombol tambahan
                     window.addEventListener('click', initBackgroundAudio, { once: true });
                     window.addEventListener('touchstart', initBackgroundAudio, { once: true });
                     window.addEventListener('keydown', initBackgroundAudio, { once: true });
@@ -701,34 +696,67 @@
             }
         });
 
+        // Pembangkit Suara Sci-Fi Technology menggunakan Web Audio API murni
         function playSound(type) {
             const soundEnabled = document.getElementById('setting-sound')?.checked;
             if (!soundEnabled) return;
 
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
+                
                 if (type === 'click') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
-                    gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.05);
-                } else if (type === 'complete') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+                    // Efek Sci-Fi Beep / Blip bernada tinggi dengan frequency sweep cepat dan filter
+                    const osc = audioCtx.createOscillator();
+                    const filter = audioCtx.createBiquadFilter();
+                    const gainNode = audioCtx.createGain();
+
+                    osc.type = 'sawtooth';
+                    // Sweep frekuensi cepat khas antarmuka terminal sci-fi (1200Hz turun ke 400Hz)
+                    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
+
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+                    filter.Q.setValueAtTime(3, audioCtx.currentTime);
+
                     gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+                    osc.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+
                     osc.start();
-                    osc.stop(audioCtx.currentTime + 0.15);
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'complete') {
+                    // Efek Sci-Fi Success Chime (Dua nada berurutan bernuansa robotik futuristik)
+                    const now = audioCtx.currentTime;
+                    
+                    const osc1 = audioCtx.createOscillator();
+                    const gain1 = audioCtx.createGain();
+                    osc1.type = 'sine';
+                    osc1.frequency.setValueAtTime(587.33, now); // D5
+                    osc1.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+                    gain1.gain.setValueAtTime(0.04, now);
+                    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    
+                    osc1.connect(gain1);
+                    gain1.connect(audioCtx.destination);
+                    osc1.start(now);
+                    osc1.stop(now + 0.12);
+
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.type = 'triangle';
+                    osc2.frequency.setValueAtTime(1174.66, now + 0.12); // D6
+                    osc2.frequency.exponentialRampToValueAtTime(1760, now + 0.25);
+                    gain2.gain.setValueAtTime(0.04, now + 0.12);
+                    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                    
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.start(now + 0.12);
+                    osc2.stop(now + 0.25);
                 }
             } catch(e) {
                 console.error("Audio error:", e);
