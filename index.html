@@ -72,7 +72,6 @@
             position: relative;
         }
 
-        /* Cyber Sparks Canvas Overlay */
         #sparks-canvas {
             position: fixed;
             top: 0;
@@ -83,7 +82,6 @@
             z-index: 2;
         }
 
-        /* Phone Frame Wrapper - Fully Responsive */
         .phone-frame {
             width: 100%;
             max-width: 480px;
@@ -135,7 +133,6 @@
             box-shadow: 0 0 30px -3px rgba(139, 92, 246, 0.25);
         }
 
-        /* AI Markdown Formatting Styles */
         .ai-content p {
             margin-bottom: 0.6rem;
             line-height: 1.5;
@@ -160,7 +157,6 @@
             animation: fadeInScale 0.35s ease-out forwards;
         }
 
-        /* Matrix Rain Canvas Container Specific (Otomatis Aktif di belakang teks dan tombol) */
         .matrix-container {
             position: absolute;
             top: 0;
@@ -179,7 +175,6 @@
             height: 100%;
         }
         
-        /* Konten dalam frame agar berada di atas matrix container */
         .content-layer {
             position: relative;
             z-index: 2;
@@ -188,33 +183,22 @@
 </head>
 <body class="selection:bg-purple-600 selection:text-white">
 
-    <!-- Backsound Audio element with seamless looping setup -->
+    <!-- Backsound Audio element (autoplay dengan penanganan interaksi pertama halaman) -->
     <audio id="bg-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c89b2518f8.mp3?filename=technology-binary-code-interface-sound-effects-sci-fi-computer-ui-sounds-209403.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Floating Audio Control Prompt / Interaction Layer for Browser Autoplay Policy -->
-    <div id="audio-overlay" style="position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(17,12,31,0.9); border:1px solid #8b5cf6; padding:10px 16px; border-radius:12px; backdrop-filter:blur(10px); display:flex; align-items:center; gap:10px; box-shadow:0 0 20px rgba(139,92,246,0.3); cursor:pointer;" onclick="initBackgroundAudio()">
-        <i class="fa-solid fa-volume-high text-neonpurple animate-pulse"></i>
-        <span style="font-size:11px; color:#e2e8f0; font-family:'Plus Jakarta Sans',sans-serif;">Klik untuk Aktifkan Backsound UI</span>
-    </div>
-
-    <!-- Cyber Sparks Ambient Canvas -->
     <canvas id="sparks-canvas"></canvas>
 
-    <!-- Phone Wrapper Container -->
     <div class="phone-frame">
 
-        <!-- Matrix Rain Background Canvas di dalam Phone Frame (Otomatis Nyala & Menyesuaikan Tema Ungu) -->
         <div id="matrix-wrapper" class="matrix-container">
             <canvas id="matrix-canvas" class="matrix-canvas-el"></canvas>
         </div>
 
-        <!-- Background Ambient Glow Orbs -->
         <div class="absolute -top-24 -left-24 w-56 h-56 bg-purple-600/25 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
         <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
 
-        <!-- Header -->
         <header id="main-header" class="bg-[#080511]/90 backdrop-blur-xl sticky top-0 z-40 px-4 py-3 flex items-center justify-between hidden content-layer">
             <div class="flex items-center space-x-2">
                 <button onclick="playSound('click'); switchView('home')" class="px-3 py-1.5 rounded-xl bg-cardbg/80 border border-darkborder hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-medium flex items-center space-x-1.5 transition-all shadow-sm active:scale-95" title="Kembali ke Menu Utama">
@@ -243,7 +227,6 @@
             </div>
         </header>
 
-        <!-- VIEW 1: HOME / MENU UTAMA -->
         <div id="view-home" class="flex-1 flex flex-col p-5 overflow-y-auto view-section z-10 relative content-layer">
             <div class="flex items-center justify-between w-full pt-1 pb-4">
                 <a href="https://whatsapp.com/channel/0029Vb7pFk81iUxR3V6ydA1e" target="_blank" onclick="playSound('click')" class="px-3 py-1.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 hover:border-emerald-500 text-emerald-300 font-medium text-xs flex items-center space-x-2 transition-all hover:bg-emerald-900/40 active:scale-95 shadow-sm group">
@@ -292,7 +275,6 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CHAT WORKSPACE -->
         <main id="view-chat" class="flex-1 flex flex-col w-full hidden view-section z-10 overflow-hidden content-layer">
             <div class="px-4 py-2 bg-cardbg/60 backdrop-blur-md flex items-center justify-between text-[11px] border-b border-darkborder/50">
                 <div class="flex items-center space-x-1.5">
@@ -312,7 +294,6 @@
                 </div>
             </div>
 
-            <!-- Chat Log container -->
             <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4">
                 <div class="flex items-start space-x-2.5 animate-fade-in">
                     <div class="w-7 h-7 rounded-xl bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-xs shadow-md">
@@ -325,7 +306,6 @@
                 </div>
             </div>
 
-            <!-- Quick Prompts / Preset Bar -->
             <div class="px-4 py-2 bg-cardbg/30 backdrop-blur-sm overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center border-t border-darkborder/30">
                 <span class="text-[9px] text-slate-500 font-mono uppercase tracking-wider mr-1">Preset:</span>
                 <button onclick="playSound('click'); applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-chart text-accent"></i> Analisis SQLi</button>
@@ -334,7 +314,6 @@
                 <button onclick="playSound('click'); applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-file-shield text-emerald-400"></i> Laporan Pentest</button>
             </div>
 
-            <!-- Sleek Input Bar -->
             <div class="p-3.5 bg-inherit">
                 <form id="chat-form" onsubmit="handleSendMessage(event)" class="relative flex items-center">
                     <textarea 
@@ -354,7 +333,6 @@
             </div>
         </main>
 
-        <!-- VIEW 3: CODE SANDBOX -->
         <div id="view-sandbox" class="flex-1 flex flex-col p-4 w-full hidden space-y-3.5 overflow-y-auto view-section z-10 content-layer">
             <div class="flex items-center justify-between pb-1">
                 <h2 class="text-sm font-bold text-white flex items-center space-x-2">
@@ -392,7 +370,6 @@
             </div>
         </div>
 
-        <!-- VIEW 4: CYBERSECURITY TOOLS UTILITY -->
         <div id="view-tools" class="flex-1 flex flex-col p-4 w-full hidden space-y-4 overflow-y-auto view-section z-10 content-layer">
             <div class="pb-1">
                 <h2 class="text-sm font-bold text-white flex items-center space-x-2">
@@ -404,7 +381,6 @@
             </div>
 
             <div class="space-y-4 pb-4">
-                <!-- Tool 1 -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-lock text-neonpurple text-[10px]"></i>
@@ -418,7 +394,6 @@
                     <input id="tool-b64-output" readonly placeholder="Hasil..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-400 focus:outline-none shadow-inner">
                 </div>
 
-                <!-- Tool 2 -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-hashtag text-neonpurple text-[10px]"></i>
@@ -431,7 +406,6 @@
             </div>
         </div>
 
-        <!-- VIEW 5: SETTINGS -->
         <div id="view-settings" class="flex-1 flex flex-col items-center justify-start p-4 hidden overflow-y-auto view-section z-10 content-layer">
             <div class="max-w-md w-full space-y-4 pt-1 pb-4">
                 <div class="pb-2">
@@ -443,7 +417,6 @@
                     </h2>
                 </div>
 
-                <!-- Ambient Sparks Settings -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Efek Ambient Visual</h3>
                     <div class="flex items-center justify-between">
@@ -458,7 +431,6 @@
                     </div>
                 </div>
 
-                <!-- Sound FX Settings -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Efek Suara UI</h3>
                     <div class="flex items-center justify-between">
@@ -473,7 +445,6 @@
                     </div>
                 </div>
 
-                <!-- TTS Settings -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Suara AI</h3>
                     <div class="flex items-center justify-between">
@@ -488,7 +459,6 @@
                     </div>
                 </div>
 
-                <!-- Creator Info -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Informasi Pembuat</h3>
                     <div class="flex items-center space-x-3 pt-1">
@@ -506,10 +476,8 @@
 
     </div>
 
-    <!-- Pyodide CDN -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
 
-    <!-- Application Script -->
     <script>
         const GROQ_STATIC_API_KEY = "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"; 
 
@@ -517,40 +485,36 @@
         let chatHistory = [];
         let pyodideInstance = null;
 
-        // --- BACKGROUND AUDIO INITIALIZER & SEAMLESS LOOP ---
+        // Auto-play backsound dengan trik listener interaksi universal pertama (klik/sentuh dokumen)
         function initBackgroundAudio() {
             const bgAudio = document.getElementById('bg-audio');
-            const overlay = document.getElementById('audio-overlay');
             if (bgAudio) {
                 bgAudio.volume = 0.8;
                 bgAudio.play().then(() => {
-                    if (overlay) {
-                        overlay.style.transition = 'opacity 0.3s ease';
-                        overlay.style.opacity = '0';
-                        setTimeout(() => overlay.remove(), 300);
-                    }
+                    // Berhasil diputar, hapus event listener global agar tidak terpanggil berulang
+                    window.removeEventListener('click', initBackgroundAudio);
+                    window.removeEventListener('touchstart', initBackgroundAudio);
+                    window.removeEventListener('keydown', initBackgroundAudio);
                 }).catch(err => {
-                    console.error("Autoplay prevented or audio error:", err);
+                    console.error("Audio autoplay ditahan peramban:", err);
                 });
             }
         }
 
-        // Coba putar otomatis, jika diblokir browser, overlay akan diklik pengguna
         window.addEventListener('DOMContentLoaded', () => {
             const bgAudio = document.getElementById('bg-audio');
             if (bgAudio) {
                 bgAudio.volume = 0.8;
-                bgAudio.play().then(() => {
-                    const overlay = document.getElementById('audio-overlay');
-                    if (overlay) overlay.remove();
-                }).catch(() => {
-                    // Biarkan overlay interaktif jika kebijakan browser menolak autoplay
+                // Coba putar langsung saat halaman termuat
+                bgAudio.play().catch(() => {
+                    // Jika diblokir, pasang listener interaksi pertama di dokumen tanpa menampilkan tombol tambahan
+                    window.addEventListener('click', initBackgroundAudio, { once: true });
+                    window.addEventListener('touchstart', initBackgroundAudio, { once: true });
+                    window.addEventListener('keydown', initBackgroundAudio, { once: true });
                 });
             }
         });
-        // ----------------------------------------------------
 
-        // --- CYBER SPARKS AMBIENT FX ---
         const sparksCanvas = document.getElementById('sparks-canvas');
         const sparksCtx = sparksCanvas.getContext('2d');
         let sparksArray = [];
@@ -622,9 +586,7 @@
                 sparksCtx.clearRect(0, 0, sparksCanvas.width, sparksCanvas.height);
             }
         }
-        // ------------------------------
 
-        // --- DYNAMIC HEADER GLITCH FX ---
         const glitchBrandNames = ["EXELYN", "EXELYN_SOC", "SEC_SYS", "ROOT@EXELYN", "AI_CORE_V1"];
         function triggerHeaderGlitch() {
             const brandEl = document.getElementById('header-brand-title');
@@ -652,9 +614,7 @@
                 triggerHeaderGlitch();
             }
         }, 10000);
-        // --------------------------------
 
-        // --- MATRIX RAIN SCRIPT LOGIC (OTOMATIS MENYESUAIKAN TEMA UNGU 01010101) ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         const matrixWrapper = document.getElementById('matrix-wrapper');
@@ -733,7 +693,6 @@
             }
         }
 
-        // Jalankan Matrix Otomatis saat halaman dimuat
         window.addEventListener('DOMContentLoaded', () => {
             resizeMatrixCanvas();
             initMatrixDrops();
@@ -741,7 +700,6 @@
                 matrixInterval = setInterval(drawMatrix, 30);
             }
         });
-        // ------------------------------
 
         function playSound(type) {
             const soundEnabled = document.getElementById('setting-sound')?.checked;
