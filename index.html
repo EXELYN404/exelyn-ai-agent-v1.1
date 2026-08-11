@@ -188,6 +188,17 @@
 </head>
 <body class="selection:bg-purple-600 selection:text-white">
 
+    <!-- Backsound Audio element with seamless looping setup -->
+    <audio id="bg-audio" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c89b2518f8.mp3?filename=technology-binary-code-interface-sound-effects-sci-fi-computer-ui-sounds-209403.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Audio Control Prompt / Interaction Layer for Browser Autoplay Policy -->
+    <div id="audio-overlay" style="position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(17,12,31,0.9); border:1px solid #8b5cf6; padding:10px 16px; border-radius:12px; backdrop-filter:blur(10px); display:flex; align-items:center; gap:10px; box-shadow:0 0 20px rgba(139,92,246,0.3); cursor:pointer;" onclick="initBackgroundAudio()">
+        <i class="fa-solid fa-volume-high text-neonpurple animate-pulse"></i>
+        <span style="font-size:11px; color:#e2e8f0; font-family:'Plus Jakarta Sans',sans-serif;">Klik untuk Aktifkan Backsound UI</span>
+    </div>
+
     <!-- Cyber Sparks Ambient Canvas -->
     <canvas id="sparks-canvas"></canvas>
 
@@ -505,6 +516,39 @@
         let currentMode = 'pentest';
         let chatHistory = [];
         let pyodideInstance = null;
+
+        // --- BACKGROUND AUDIO INITIALIZER & SEAMLESS LOOP ---
+        function initBackgroundAudio() {
+            const bgAudio = document.getElementById('bg-audio');
+            const overlay = document.getElementById('audio-overlay');
+            if (bgAudio) {
+                bgAudio.volume = 0.8;
+                bgAudio.play().then(() => {
+                    if (overlay) {
+                        overlay.style.transition = 'opacity 0.3s ease';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.remove(), 300);
+                    }
+                }).catch(err => {
+                    console.error("Autoplay prevented or audio error:", err);
+                });
+            }
+        }
+
+        // Coba putar otomatis, jika diblokir browser, overlay akan diklik pengguna
+        window.addEventListener('DOMContentLoaded', () => {
+            const bgAudio = document.getElementById('bg-audio');
+            if (bgAudio) {
+                bgAudio.volume = 0.8;
+                bgAudio.play().then(() => {
+                    const overlay = document.getElementById('audio-overlay');
+                    if (overlay) overlay.remove();
+                }).catch(() => {
+                    // Biarkan overlay interaktif jika kebijakan browser menolak autoplay
+                });
+            }
+        });
+        // ----------------------------------------------------
 
         // --- CYBER SPARKS AMBIENT FX ---
         const sparksCanvas = document.getElementById('sparks-canvas');
