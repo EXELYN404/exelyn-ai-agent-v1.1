@@ -71,11 +71,11 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            opacity: 0.35;
+            display: none;
         }
         #matrix-canvas.active {
-            opacity: 0.25;
+            display: block;
         }
 
         /* Phone Frame Wrapper */
@@ -526,6 +526,8 @@
             playSound('click');
             if (checkbox.checked) {
                 canvas.classList.add('active');
+                resizeMatrixCanvas();
+                initMatrixDrops();
                 if (!matrixInterval) {
                     matrixInterval = setInterval(drawMatrix, 30);
                 }
@@ -614,7 +616,6 @@
             };
         }
 
-        // Hentikan suara otomatis jika keluar dari halaman atau berpindah tab
         window.addEventListener('beforeunload', () => {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -684,7 +685,6 @@
         }
 
         function clearSession() {
-            // Hentikan suara TTS yang sedang berjalan saat sesi di-reset
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
             }
