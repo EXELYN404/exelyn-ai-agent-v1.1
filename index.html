@@ -133,7 +133,6 @@
             font-weight: 600;
         }
 
-        /* Animasi Transisi View */
         .view-section {
             animation: fadeInScale 0.35s ease-out forwards;
         }
@@ -144,34 +143,34 @@
     <!-- Phone Wrapper Container -->
     <div class="phone-frame">
 
-        <!-- Background Ambient Glow Orbs (Tanpa garis, memberikan kesan hidup/estetik) -->
+        <!-- Background Ambient Glow Orbs -->
         <div class="absolute -top-24 -left-24 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
         <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
 
-        <!-- Header (Hidden on Home, Visible on Sub-menus) -->
+        <!-- Header -->
         <header id="main-header" class="bg-[#080511]/80 backdrop-blur-xl sticky top-0 z-40 px-3.5 py-3 flex items-center justify-between hidden">
             <div class="flex items-center space-x-2">
-                <button onclick="switchView('home')" class="px-2.5 py-1.5 rounded-xl bg-cardbg/80 border border-darkborder hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-medium flex items-center space-x-1.5 transition-all shadow-sm active:scale-95" title="Kembali ke Menu Utama">
+                <button onclick="playSound('click'); switchView('home')" class="px-2.5 py-1.5 rounded-xl bg-cardbg/80 border border-darkborder hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-medium flex items-center space-x-1.5 transition-all shadow-sm active:scale-95" title="Kembali ke Menu Utama">
                     <i class="fa-solid fa-arrow-left text-xs"></i>
                     <span>Menu</span>
                 </button>
                 <div class="flex items-center space-x-1.5 pl-1">
                     <span class="font-semibold tracking-wide text-xs">EXELYN</span>
-                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded-full bg-purple-950/80 text-neonpurple border border-purple-900/50 shadow-inner">v1.0</span>
+                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded-full bg-purple-950/80 text-neonpurple border border-purple-900/50 shadow-inner">v1.1</span>
                 </div>
             </div>
 
             <div id="header-tools" class="flex items-center space-x-1 bg-cardbg/50 p-1 rounded-xl border border-darkborder backdrop-blur-sm">
-                <button onclick="switchView('chat')" id="nav-btn-chat" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-purple-600/20 text-purple-300 border border-purple-500/30 transition-all shadow-sm">
+                <button onclick="playSound('click'); switchView('chat')" id="nav-btn-chat" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-purple-600/20 text-purple-300 border border-purple-500/30 transition-all shadow-sm">
                     Chat
                 </button>
-                <button onclick="switchView('sandbox')" id="nav-btn-sandbox" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
+                <button onclick="playSound('click'); switchView('sandbox')" id="nav-btn-sandbox" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
                     Sandbox
                 </button>
-                <button onclick="switchView('tools')" id="nav-btn-tools" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
+                <button onclick="playSound('click'); switchView('tools')" id="nav-btn-tools" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
                     Tools
                 </button>
-                <button onclick="switchView('settings')" id="nav-btn-settings" class="w-7 h-7 rounded-lg bg-cardbg hover:bg-purple-900/30 flex items-center justify-center text-slate-400 hover:text-white transition-all" title="Pengaturan">
+                <button onclick="playSound('click'); switchView('settings')" id="nav-btn-settings" class="w-7 h-7 rounded-lg bg-cardbg hover:bg-purple-900/30 flex items-center justify-center text-slate-400 hover:text-white transition-all" title="Pengaturan">
                     <i class="fa-solid fa-gear text-[10px]"></i>
                 </button>
             </div>
@@ -180,7 +179,6 @@
         <!-- VIEW 1: HOME / MENU UTAMA -->
         <div id="view-home" class="flex-1 flex flex-col items-center justify-center p-6 text-center overflow-y-auto view-section z-10">
             <div class="max-w-xs w-full space-y-6">
-                <!-- Logo dengan animasi pulse glow halus -->
                 <div class="relative w-20 h-20 mx-auto">
                     <div class="absolute inset-0 bg-accent/30 rounded-2xl blur-xl animate-pulse-glow"></div>
                     <div class="relative w-full h-full rounded-2xl bg-gradient-to-br from-purple-900 via-indigo-900 to-accent flex items-center justify-center shadow-lg shadow-purple-600/30 p-3 border border-purple-400/30 transform hover:scale-105 transition-transform duration-300">
@@ -197,19 +195,19 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-2.5 pt-2">
-                    <button onclick="switchView('chat')" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white font-medium text-xs flex items-center justify-center space-x-2.5 transition-all shadow-lg shadow-purple-600/30 transform hover:-translate-y-0.5 active:scale-95">
+                    <button onclick="playSound('click'); switchView('chat')" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white font-medium text-xs flex items-center justify-center space-x-2.5 transition-all shadow-lg shadow-purple-600/30 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-comments text-xs"></i>
                         <span>Mulai Chatbot AI</span>
                     </button>
-                    <button onclick="switchView('sandbox')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
+                    <button onclick="playSound('click'); switchView('sandbox')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-code text-xs text-neonpurple"></i>
                         <span>Code Sandbox</span>
                     </button>
-                    <button onclick="switchView('tools')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
+                    <button onclick="playSound('click'); switchView('tools')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-toolbox text-xs text-accent"></i>
                         <span>Cyber Security Tools</span>
                     </button>
-                    <button onclick="switchView('settings')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
+                    <button onclick="playSound('click'); switchView('settings')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/85 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-gear text-xs text-accent"></i>
                         <span>Pengaturan & Info</span>
                     </button>
@@ -227,15 +225,15 @@
             <div class="px-3.5 py-2 bg-cardbg/60 backdrop-blur-md flex items-center justify-between text-[11px]">
                 <div class="flex items-center space-x-1.5">
                     <span class="text-slate-400 font-medium">Mode:</span>
-                    <button onclick="setMode('pentest')" id="mode-pentest" class="px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm">Pentest</button>
-                    <button onclick="setMode('code')" id="mode-code" class="px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white">Coding</button>
+                    <button onclick="playSound('click'); setMode('pentest')" id="mode-pentest" class="px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm">Pentest</button>
+                    <button onclick="playSound('click'); setMode('code')" id="mode-code" class="px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white">Coding</button>
                 </div>
                 <div class="flex items-center space-x-1.5">
-                    <button onclick="exportChat()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Ekspor Chat">
+                    <button onclick="playSound('click'); exportChat()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Ekspor Chat">
                         <i class="fa-solid fa-download text-[9px]"></i>
                         <span>Ekspor</span>
                     </button>
-                    <button onclick="clearSession()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Reset Sesi">
+                    <button onclick="playSound('click'); clearSession()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Reset Sesi">
                         <i class="fa-solid fa-rotate-right text-[9px]"></i>
                         <span>Reset</span>
                     </button>
@@ -250,7 +248,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
-                        <p class="font-medium text-white">Halo! Exelyn siap bertugas. ✨</p>
+                        <p class="font-medium text-white flex items-center gap-1.5">Halo! Exelyn siap bertugas. <i class="fa-solid fa-wand-magic-sparkles text-neonpurple"></i></p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Pilih preset di bawah atau ketik pertanyaan keamanan siber / koding Anda.</p>
                     </div>
                 </div>
@@ -259,10 +257,10 @@
             <!-- Quick Prompts / Preset Bar -->
             <div class="px-3.5 py-2 bg-cardbg/30 backdrop-blur-sm overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center">
                 <span class="text-[9px] text-slate-500 font-mono uppercase tracking-wider mr-1">Preset:</span>
-                <button onclick="applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">🔍 Analisis SQLi</button>
-                <button onclick="applyPreset('Berikan contoh payload XSS aman untuk pengujian web')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">🛡️ Payload XSS</button>
-                <button onclick="applyPreset('Optimalkan baris kode JavaScript ini dan bersihkan bug')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">⚡ Optimasi JS</button>
-                <button onclick="applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">📄 Laporan Pentest</button>
+                <button onclick="playSound('click'); applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-chart text-accent"></i> Analisis SQLi</button>
+                <button onclick="playSound('click'); applyPreset('Berikan contoh payload XSS aman untuk pengujian web')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-shield-virus text-neonpurple"></i> Payload XSS</button>
+                <button onclick="playSound('click'); applyPreset('Optimalkan baris kode JavaScript ini dan bersihkan bug')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-bolt-lightning text-amber-400"></i> Optimasi JS</button>
+                <button onclick="playSound('click'); applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-file-shield text-emerald-400"></i> Laporan Pentest</button>
             </div>
 
             <!-- Sleek Input Bar -->
@@ -299,7 +297,7 @@
                         <option value="html">HTML/JS</option>
                         <option value="python">Python</option>
                     </select>
-                    <button onclick="runSandboxCode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-white text-[11px] font-medium transition-all shadow-md active:scale-95">
+                    <button onclick="playSound('click'); runSandboxCode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-white text-[11px] font-medium transition-all shadow-md active:scale-95">
                         Jalankan
                     </button>
                 </div>
@@ -307,7 +305,7 @@
 
             <div class="flex flex-col space-y-2 flex-1">
                 <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider pl-1">Editor Kode</span>
-                <textarea id="sandbox-input" class="w-full h-36 bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 code-font text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner" placeholder="Ketik kode...">&lt;div style="padding: 10px; font-family: sans-serif;"&gt;
+                <textarea id="sandbox-input" class="w-full h-36 bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 code-font text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner" placeholder="Ketik kode...">&lt;div style="padding: 10px; font-family: sans-serif;"&gt;
   &lt;h3 style="color: #8b5cf6;"&gt;Sandbox Exelyn&lt;/h3&gt;
   &lt;button onclick="alert('Berhasil!')" style="background:#8b5cf6; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;"&gt;Klik&lt;/button&gt;
 &lt;/div&gt;</textarea>
@@ -336,27 +334,27 @@
 
             <div class="space-y-4 pb-4">
                 <!-- Tool 1 -->
-                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-lock text-neonpurple text-[10px]"></i>
                         <span>Base64 Encoder / Decoder</span>
                     </h3>
                     <textarea id="tool-b64-input" rows="2" placeholder="Masukkan teks..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner"></textarea>
                     <div class="flex space-x-2">
-                        <button onclick="toolBase64('encode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Encode</button>
-                        <button onclick="toolBase64('decode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Decode</button>
+                        <button onclick="playSound('click'); toolBase64('encode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Encode</button>
+                        <button onclick="playSound('click'); toolBase64('decode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Decode</button>
                     </div>
                     <input id="tool-b64-output" readonly placeholder="Hasil..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-400 focus:outline-none shadow-inner">
                 </div>
 
                 <!-- Tool 2 -->
-                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-hashtag text-neonpurple text-[10px]"></i>
                         <span>SHA-256 Hash Generator</span>
                     </h3>
                     <textarea id="tool-hash-input" rows="2" placeholder="Masukkan teks hash..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner"></textarea>
-                    <button onclick="toolGenerateHash()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-[11px] font-medium text-white shadow-md active:scale-95 transition-all">Generate SHA-256</button>
+                    <button onclick="playSound('click'); toolGenerateHash()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-[11px] font-medium text-white shadow-md active:scale-95 transition-all">Generate SHA-256</button>
                     <input id="tool-hash-output" readonly placeholder="Hasil Hash..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-400 focus:outline-none code-font shadow-inner">
                 </div>
             </div>
@@ -374,8 +372,23 @@
                     </h2>
                 </div>
 
+                <!-- Sound FX Settings -->
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                    <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Efek Suara UI</h3>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-200">Suara Interaksi</p>
+                            <p class="text-[10px] text-slate-400">Suara klik dan respons sistem</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="setting-sound" class="sr-only peer" checked>
+                            <div class="w-9 h-5 bg-darkborder peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-accent shadow-inner"></div>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- TTS Settings -->
-                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Suara AI</h3>
                     <div class="flex items-center justify-between">
                         <div>
@@ -390,7 +403,7 @@
                 </div>
 
                 <!-- Creator Info -->
-                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Informasi Pembuat</h3>
                     <div class="flex items-center space-x-3 pt-1">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-900 to-accent border border-purple-700/50 flex items-center justify-center text-white font-bold text-sm shadow-md">
@@ -418,6 +431,40 @@
         let chatHistory = [];
         let pyodideInstance = null;
 
+        function playSound(type) {
+            const soundEnabled = document.getElementById('setting-sound')?.checked;
+            if (!soundEnabled) return;
+
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+                    gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.05);
+                } else if (type === 'complete') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+                    gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.15);
+                }
+            } catch(e) {
+                console.error("Audio error:", e);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedHistory = localStorage.getItem('exelyn_chat_history');
             if (savedHistory) {
@@ -427,7 +474,7 @@
                         const container = document.getElementById('chat-container');
                         container.innerHTML = '';
                         chatHistory.forEach(msg => {
-                            appendMessageUI(msg.role === 'user' ? 'user' : 'ai', msg.content);
+                            appendMessageUI(msg.role === 'user' ? 'user' : 'ai', msg.content, false);
                         });
                     }
                 } catch(e) {
@@ -488,7 +535,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
-                        <p class="font-medium text-white">Sesi dibersihkan. Mari mulai dari awal! 🔄</p>
+                        <p class="font-medium text-white flex items-center gap-1.5">Sesi dibersihkan. Mari mulai dari awal! <i class="fa-solid fa-rotate text-accent"></i></p>
                     </div>
                 </div>
             `;
@@ -526,6 +573,7 @@
         }
 
         function copyCodeSnippet(btn) {
+            playSound('click');
             const pre = btn.closest('.code-block-wrapper').querySelector('code');
             const text = pre.textContent;
             if (navigator.clipboard) {
@@ -538,7 +586,7 @@
             }, 2000);
         }
 
-        function appendMessageUI(sender, text) {
+        function appendMessageUI(sender, text, animateTypewriter = false) {
             const container = document.getElementById('chat-container');
             const isUser = sender === 'user';
             
@@ -560,19 +608,50 @@
 
             if (isUser) {
                 bubble.textContent = text;
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(bubble);
+                container.appendChild(wrapper);
+                container.scrollTop = container.scrollHeight;
             } else {
-                bubble.innerHTML = formatAIResponse(text);
-            }
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(bubble);
+                container.appendChild(wrapper);
+                container.scrollTop = container.scrollHeight;
 
-            wrapper.appendChild(avatar);
-            wrapper.appendChild(bubble);
-            container.appendChild(wrapper);
-            container.scrollTop = container.scrollHeight;
+                if (animateTypewriter) {
+                    typeWriterEffect(bubble, text);
+                } else {
+                    bubble.innerHTML = formatAIResponse(text);
+                }
+            }
         }
 
-        function appendMessage(sender, text) {
-            appendMessageUI(sender, text);
-            if (sender === 'ai') {
+        function typeWriterEffect(element, fullText) {
+            let i = 0;
+            const speed = 12;
+            let currentDisplay = "";
+            
+            function type() {
+                if (i < fullText.length) {
+                    currentDisplay += fullText.charAt(i);
+                    element.innerHTML = formatAIResponse(currentDisplay + "▌");
+                    i++;
+                    const container = document.getElementById('chat-container');
+                    container.scrollTop = container.scrollHeight;
+                    setTimeout(type, speed);
+                } else {
+                    element.innerHTML = formatAIResponse(fullText);
+                    playSound('complete');
+                    const container = document.getElementById('chat-container');
+                    container.scrollTop = container.scrollHeight;
+                }
+            }
+            type();
+        }
+
+        function appendMessage(sender, text, animate = false) {
+            appendMessageUI(sender, text, animate);
+            if (sender === 'ai' && !animate) {
                 const ttsEnabled = document.getElementById('setting-tts').checked;
                 if (ttsEnabled && 'speechSynthesis' in window) {
                     const utterance = new SpeechSynthesisUtterance(text.replace(/```[\s\S]*?```/g, ' cuplikan kode.'));
@@ -699,6 +778,7 @@
 
         async function handleSendMessage(event) {
             event.preventDefault();
+            playSound('click');
             const inputField = document.getElementById('user-input');
             const promptText = inputField.value.trim();
             if (!promptText) return;
@@ -727,7 +807,15 @@
             const aiResponse = await callGroqAPI(promptText);
 
             loadingDiv.remove();
-            appendMessage('ai', aiResponse);
+            
+            appendMessageUI('ai', aiResponse, true);
+
+            const ttsEnabled = document.getElementById('setting-tts').checked;
+            if (ttsEnabled && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(aiResponse.replace(/```[\s\S]*?```/g, ' cuplikan kode.'));
+                utterance.lang = 'id-ID';
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
         const textarea = document.getElementById('user-input');
