@@ -592,7 +592,6 @@
             utterance.lang = 'id-ID';
 
             const voices = window.speechSynthesis.getVoices();
-            // Pilih suara bernuansa natural/profesional (Google, Natural, dsb)
             let selectedVoice = voices.find(v => v.lang === 'id-ID' && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Andika') || v.name.includes('Damayanti')));
             
             if (!selectedVoice) {
@@ -603,7 +602,6 @@
                 utterance.voice = selectedVoice;
             }
 
-            // Atur pitch sedikit lebih rendah (dewasa) dan kecepatan stabil (profesional)
             utterance.pitch = 0.95; 
             utterance.rate = 1.0;   
 
@@ -615,6 +613,13 @@
                 window.speechSynthesis.getVoices();
             };
         }
+
+        // Hentikan suara otomatis jika keluar dari halaman atau berpindah tab
+        window.addEventListener('beforeunload', () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        });
         // --------------------------------------------
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -679,6 +684,11 @@
         }
 
         function clearSession() {
+            // Hentikan suara TTS yang sedang berjalan saat sesi di-reset
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
             chatHistory = [];
             localStorage.removeItem('exelyn_chat_history');
             document.getElementById('chat-container').innerHTML = `
