@@ -649,18 +649,6 @@
             type();
         }
 
-        function appendMessage(sender, text, animate = false) {
-            appendMessageUI(sender, text, animate);
-            if (sender === 'ai' && !animate) {
-                const ttsEnabled = document.getElementById('setting-tts').checked;
-                if (ttsEnabled && 'speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(text.replace(/```[\s\S]*?```/g, ' cuplikan kode.'));
-                    utterance.lang = 'id-ID';
-                    window.speechSynthesis.speak(utterance);
-                }
-            }
-        }
-
         function formatAIResponse(text) {
             let sanitizedText = text
                 .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "[Script Dihapus]")
@@ -786,7 +774,7 @@
             inputField.value = '';
             inputField.style.height = 'auto';
 
-            appendMessage('user', promptText);
+            appendMessageUI('user', promptText);
 
             const container = document.getElementById('chat-container');
             const loadingDiv = document.createElement('div');
@@ -808,6 +796,7 @@
 
             loadingDiv.remove();
             
+            // Efek ketikan diaktifkan di sini dengan parameter true
             appendMessageUI('ai', aiResponse, true);
 
             const ttsEnabled = document.getElementById('setting-tts').checked;
