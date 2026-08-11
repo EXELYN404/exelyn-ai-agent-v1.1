@@ -18,6 +18,26 @@
                         accenthover: '#7c3aed',
                         neonpurple: '#c084fc',
                         darkborder: '#221738'
+                    },
+                    keyframes: {
+                        floatOrb: {
+                            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '50%': { transform: 'translate(20px, -25px) scale(1.1)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.8' },
+                        },
+                        fadeInScale: {
+                            '0%': { opacity: '0', transform: 'scale(0.97)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    },
+                    animation: {
+                        'float-slow': 'floatOrb 8s ease-in-out infinite',
+                        'float-delayed': 'floatOrb 10s ease-in-out 3s infinite',
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+                        'fade-in': 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
                     }
                 }
             }
@@ -39,26 +59,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background Ambient Glows (Tanpa garis-garis pengganggu) */
-        .ambient-glow {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            background: rgba(139, 92, 246, 0.08);
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            animation: floatGlow 8s ease-in-out infinite alternate;
-            pointer-events: none;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(-50px, -50px) scale(1); }
-            100% { transform: translate(50px, 50px) scale(1.2); }
         }
 
         /* Phone Frame Wrapper */
@@ -69,22 +69,19 @@
             max-height: 900px;
             background-color: var(--bg-color, #080511);
             border-radius: 0px;
-            box-shadow: 0 0 50px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.05);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.2);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
             border: 1px solid #221738;
-            z-index: 10;
-            transition: all 0.3s ease;
         }
 
         @media (min-width: 640px) {
             .phone-frame {
                 border-radius: 40px;
                 height: 90vh;
-                border: 2px solid #221738;
-                box-shadow: 0 0 60px rgba(139, 92, 246, 0.25), 0 0 0 8px rgba(26, 16, 47, 0.6);
+                border: 8px solid #1a102f;
             }
         }
 
@@ -108,23 +105,11 @@
         }
 
         .glow-effect {
-            box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.15);
+            transition: all 0.3s ease;
         }
-
-        /* Smooth View Transition Animation */
-        .view-transition {
-            animation: fadeInView 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeInView {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .glow-effect:hover {
+            box-shadow: 0 0 30px -3px rgba(139, 92, 246, 0.25);
         }
 
         /* AI Markdown Formatting Styles */
@@ -147,112 +132,110 @@
             color: #ffffff;
             font-weight: 600;
         }
+
+        /* Animasi Transisi View */
+        .view-section {
+            animation: fadeInScale 0.35s ease-out forwards;
+        }
     </style>
 </head>
 <body class="selection:bg-purple-600 selection:text-white">
 
-    <!-- Ambient Background Lighting -->
-    <div class="ambient-glow -top-20 -left-20"></div>
-    <div class="ambient-glow -bottom-20 -right-20" style="animation-delay: -4s;"></div>
-
     <!-- Phone Wrapper Container -->
     <div class="phone-frame">
 
+        <!-- Background Ambient Glow Orbs (Tanpa garis, memberikan kesan hidup/estetik) -->
+        <div class="absolute -top-24 -left-24 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
+        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none animate-float-delayed"></div>
+
         <!-- Header (Hidden on Home, Visible on Sub-menus) -->
-        <header id="main-header" class="border-b border-darkborder bg-[#080511]/90 backdrop-blur-md sticky top-0 z-40 px-3.5 py-3 flex items-center justify-between hidden">
+        <header id="main-header" class="bg-[#080511]/80 backdrop-blur-xl sticky top-0 z-40 px-3.5 py-3 flex items-center justify-between hidden">
             <div class="flex items-center space-x-2">
-                <button onclick="switchView('home')" class="px-2.5 py-1.5 rounded-lg bg-cardbg border border-darkborder hover:border-purple-600/50 text-slate-300 hover:text-white text-xs font-medium flex items-center space-x-1.5 transition-all shadow-sm group" title="Kembali ke Menu Utama">
-                    <i class="fa-solid fa-arrow-left text-xs group-hover:-translate-x-0.5 transition-transform"></i>
+                <button onclick="switchView('home')" class="px-2.5 py-1.5 rounded-xl bg-cardbg/80 border border-darkborder hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-medium flex items-center space-x-1.5 transition-all shadow-sm active:scale-95" title="Kembali ke Menu Utama">
+                    <i class="fa-solid fa-arrow-left text-xs"></i>
                     <span>Menu</span>
                 </button>
                 <div class="flex items-center space-x-1.5 pl-1">
                     <span class="font-semibold tracking-wide text-xs">EXELYN</span>
-                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-neonpurple border border-purple-900/65 flex items-center space-x-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                        <span>v1.0</span>
-                    </span>
+                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded-full bg-purple-950/80 text-neonpurple border border-purple-900/50 shadow-inner">v1.0</span>
                 </div>
             </div>
 
-            <div id="header-tools" class="flex items-center space-x-1">
-                <button onclick="switchView('chat')" id="nav-btn-chat" class="px-2 py-1 rounded-md text-[11px] font-medium bg-purple-900/40 text-purple-300 border border-purple-700/40 transition-all">
+            <div id="header-tools" class="flex items-center space-x-1 bg-cardbg/50 p-1 rounded-xl border border-darkborder backdrop-blur-sm">
+                <button onclick="switchView('chat')" id="nav-btn-chat" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-purple-600/20 text-purple-300 border border-purple-500/30 transition-all shadow-sm">
                     Chat
                 </button>
-                <button onclick="switchView('sandbox')" id="nav-btn-sandbox" class="px-2 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-white transition-all">
+                <button onclick="switchView('sandbox')" id="nav-btn-sandbox" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
                     Sandbox
                 </button>
-                <button onclick="switchView('tools')" id="nav-btn-tools" class="px-2 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-white transition-all">
+                <button onclick="switchView('tools')" id="nav-btn-tools" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all">
                     Tools
                 </button>
-                <button onclick="switchView('settings')" id="nav-btn-settings" class="w-7 h-7 rounded-lg border border-darkborder bg-cardbg flex items-center justify-center text-slate-400 hover:text-white transition-all hover:rotate-45" title="Pengaturan">
+                <button onclick="switchView('settings')" id="nav-btn-settings" class="w-7 h-7 rounded-lg bg-cardbg hover:bg-purple-900/30 flex items-center justify-center text-slate-400 hover:text-white transition-all" title="Pengaturan">
                     <i class="fa-solid fa-gear text-[10px]"></i>
                 </button>
             </div>
         </header>
 
         <!-- VIEW 1: HOME / MENU UTAMA -->
-        <div id="view-home" class="flex-1 flex flex-col items-center justify-center p-6 text-center overflow-y-auto view-transition">
-            <div class="max-w-xs w-full space-y-5">
-                <!-- Glowing Logo Container with Pulse Ring -->
+        <div id="view-home" class="flex-1 flex flex-col items-center justify-center p-6 text-center overflow-y-auto view-section z-10">
+            <div class="max-w-xs w-full space-y-6">
+                <!-- Logo dengan animasi pulse glow halus -->
                 <div class="relative w-20 h-20 mx-auto">
-                    <div class="absolute inset-0 rounded-2xl bg-purple-600/20 blur-xl animate-pulse"></div>
-                    <div class="relative w-full h-full rounded-2xl bg-gradient-to-br from-purple-950 via-indigo-950 to-accent flex items-center justify-center glow-effect p-3 border border-purple-500/40 shadow-inner">
-                        <svg class="w-10 h-10 text-neonpurple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <div class="absolute inset-0 bg-accent/30 rounded-2xl blur-xl animate-pulse-glow"></div>
+                    <div class="relative w-full h-full rounded-2xl bg-gradient-to-br from-purple-900 via-indigo-900 to-accent flex items-center justify-center shadow-lg shadow-purple-600/30 p-3 border border-purple-400/30 transform hover:scale-105 transition-transform duration-300">
+                        <svg class="w-full h-full text-neonpurple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(139, 92, 246, 0.25)"/>
                             <path d="M12 8v8m-4-4h8" stroke-linecap="round"/>
                         </svg>
                     </div>
                 </div>
                 
-                <div class="space-y-1.5">
-                    <h1 class="text-2xl font-bold tracking-tight text-white flex items-center justify-center space-x-2">
-                        <span>Exelyn Agent</span>
-                        <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
-                    </h1>
-                    <p class="text-slate-400 text-xs leading-relaxed">Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities.</p>
+                <div class="space-y-2">
+                    <h1 class="text-2xl font-bold tracking-tight text-white bg-gradient-to-r from-white via-purple-200 to-neonpurple bg-clip-text text-transparent">Exelyn Agent</h1>
+                    <p class="text-slate-400 text-xs leading-relaxed">Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities dengan performa tinggi.</p>
                 </div>
 
                 <div class="grid grid-cols-1 gap-2.5 pt-2">
-                    <button onclick="switchView('chat')" class="w-full py-3 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-accent text-white font-medium text-xs flex items-center justify-center space-x-2 transition-all shadow-lg shadow-purple-600/30 hover:scale-[1.02] active:scale-95">
+                    <button onclick="switchView('chat')" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white font-medium text-xs flex items-center justify-center space-x-2.5 transition-all shadow-lg shadow-purple-600/30 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-comments text-xs"></i>
                         <span>Mulai Chatbot AI</span>
                     </button>
-                    <button onclick="switchView('sandbox')" class="w-full py-3 rounded-xl bg-cardbg border border-darkborder hover:border-purple-600/60 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2 transition-all hover:scale-[1.02] active:scale-95">
+                    <button onclick="switchView('sandbox')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-code text-xs text-neonpurple"></i>
                         <span>Code Sandbox</span>
                     </button>
-                    <button onclick="switchView('tools')" class="w-full py-3 rounded-xl bg-cardbg border border-darkborder hover:border-purple-600/60 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2 transition-all hover:scale-[1.02] active:scale-95">
+                    <button onclick="switchView('tools')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-toolbox text-xs text-accent"></i>
                         <span>Cyber Security Tools</span>
                     </button>
-                    <button onclick="switchView('settings')" class="w-full py-3 rounded-xl bg-cardbg border border-darkborder hover:border-purple-600/60 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2 transition-all hover:scale-[1.02] active:scale-95">
+                    <button onclick="switchView('settings')" class="w-full py-3.5 px-4 rounded-2xl bg-cardbg/80 backdrop-blur-md border border-darkborder hover:border-purple-500/50 text-slate-200 font-medium text-xs flex items-center justify-center space-x-2.5 transition-all hover:bg-purple-950/20 transform hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-gear text-xs text-accent"></i>
                         <span>Pengaturan & Info</span>
                     </button>
                 </div>
 
-                <div class="pt-2 text-[11px] text-slate-500 font-mono flex items-center justify-center space-x-1.5">
-                    <span>Dibuat oleh</span>
-                    <span class="text-neonpurple font-semibold bg-purple-950/60 px-2 py-0.5 rounded border border-purple-900/40">Exelyn</span>
+                <div class="pt-2 text-[11px] text-slate-500 font-mono">
+                    Dibuat oleh <span class="text-neonpurple font-medium">Exelyn</span>
                 </div>
             </div>
         </div>
 
         <!-- VIEW 2: CHAT WORKSPACE -->
-        <main id="view-chat" class="flex-1 flex flex-col w-full h-[calc(100vh-53px)] hidden view-transition">
+        <main id="view-chat" class="flex-1 flex flex-col w-full h-[calc(100vh-53px)] hidden view-section z-10">
             <!-- Sub Bar Chat -->
-            <div class="px-3 py-1.5 border-b border-darkborder bg-cardbg/40 flex items-center justify-between text-[11px]">
+            <div class="px-3.5 py-2 bg-cardbg/60 backdrop-blur-md flex items-center justify-between text-[11px]">
                 <div class="flex items-center space-x-1.5">
                     <span class="text-slate-400 font-medium">Mode:</span>
-                    <button onclick="setMode('pentest')" id="mode-pentest" class="px-2 py-0.5 rounded transition-all text-white bg-purple-900/40 text-purple-300 font-medium border border-purple-700/30">Pentest</button>
-                    <button onclick="setMode('code')" id="mode-code" class="px-2 py-0.5 rounded transition-all text-slate-400 hover:text-white">Coding</button>
+                    <button onclick="setMode('pentest')" id="mode-pentest" class="px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm">Pentest</button>
+                    <button onclick="setMode('code')" id="mode-code" class="px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white">Coding</button>
                 </div>
                 <div class="flex items-center space-x-1.5">
-                    <button onclick="exportChat()" class="px-2 py-0.5 rounded bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1" title="Ekspor Chat">
+                    <button onclick="exportChat()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Ekspor Chat">
                         <i class="fa-solid fa-download text-[9px]"></i>
                         <span>Ekspor</span>
                     </button>
-                    <button onclick="clearSession()" class="px-2 py-0.5 rounded bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1" title="Reset Sesi">
+                    <button onclick="clearSession()" class="px-2.5 py-1 rounded-lg bg-cardbg border border-darkborder text-slate-300 hover:text-white transition-all flex items-center space-x-1 shadow-sm hover:border-purple-500/40" title="Reset Sesi">
                         <i class="fa-solid fa-rotate-right text-[9px]"></i>
                         <span>Reset</span>
                     </button>
@@ -260,13 +243,13 @@
             </div>
 
             <!-- Chat Log container -->
-            <div id="chat-container" class="flex-1 overflow-y-auto p-3.5 space-y-4">
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4">
                 <!-- Welcome Message -->
-                <div class="flex items-start space-x-2.5">
-                    <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-[10px]">
+                <div class="flex items-start space-x-2.5 animate-fade-in">
+                    <div class="w-7 h-7 rounded-xl bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-xs shadow-md">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="bg-cardbg border border-darkborder rounded-xl p-3 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
+                    <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
                         <p class="font-medium text-white">Halo! Exelyn siap bertugas. ✨</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Pilih preset di bawah atau ketik pertanyaan keamanan siber / koding Anda.</p>
                     </div>
@@ -274,27 +257,27 @@
             </div>
 
             <!-- Quick Prompts / Preset Bar -->
-            <div class="px-3 py-1.5 border-t border-darkborder bg-cardbg/20 overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center">
-                <span class="text-[9px] text-slate-500 font-mono uppercase tracking-wider mr-0.5">Preset:</span>
-                <button onclick="applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-2.5 py-1 rounded-full bg-cardbg border border-darkborder text-slate-300 hover:border-accent hover:text-white transition-all">🔍 Analisis SQLi</button>
-                <button onclick="applyPreset('Berikan contoh payload XSS aman untuk pengujian web')" class="text-[11px] px-2.5 py-1 rounded-full bg-cardbg border border-darkborder text-slate-300 hover:border-accent hover:text-white transition-all">🛡️ Payload XSS</button>
-                <button onclick="applyPreset('Optimalkan baris kode JavaScript ini dan bersihkan bug')" class="text-[11px] px-2.5 py-1 rounded-full bg-cardbg border border-darkborder text-slate-300 hover:border-accent hover:text-white transition-all">⚡ Optimasi JS</button>
-                <button onclick="applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-2.5 py-1 rounded-full bg-cardbg border border-darkborder text-slate-300 hover:border-accent hover:text-white transition-all">📄 Laporan Pentest</button>
+            <div class="px-3.5 py-2 bg-cardbg/30 backdrop-blur-sm overflow-x-auto whitespace-nowrap space-x-1.5 flex items-center">
+                <span class="text-[9px] text-slate-500 font-mono uppercase tracking-wider mr-1">Preset:</span>
+                <button onclick="applyPreset('Analisis kerentanan SQL Injection pada form login')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">🔍 Analisis SQLi</button>
+                <button onclick="applyPreset('Berikan contoh payload XSS aman untuk pengujian web')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">🛡️ Payload XSS</button>
+                <button onclick="applyPreset('Optimalkan baris kode JavaScript ini dan bersihkan bug')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">⚡ Optimasi JS</button>
+                <button onclick="applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm">📄 Laporan Pentest</button>
             </div>
 
             <!-- Sleek Input Bar -->
-            <div class="p-3 bg-inherit border-t border-darkborder">
+            <div class="p-3.5 bg-inherit">
                 <form id="chat-form" onsubmit="handleSendMessage(event)" class="relative flex items-center">
                     <textarea 
                         id="user-input" 
                         rows="1" 
                         placeholder="Ketik pesan..." 
-                        class="w-full bg-cardbg border border-darkborder focus:border-purple-600 rounded-xl px-3.5 py-2.5 pr-10 text-xs text-slate-200 placeholder-slate-500 focus:outline-none resize-none max-h-24 transition-all shadow-inner"
+                        class="w-full bg-cardbg/90 backdrop-blur-md border border-darkborder focus:border-purple-500 rounded-2xl px-4 py-3 pr-11 text-xs text-slate-200 placeholder-slate-500 focus:outline-none resize-none max-h-24 transition-all shadow-inner"
                         onkeydown="handleKeyDown(event)"
                     ></textarea>
                     <button 
                         type="submit" 
-                        class="absolute right-2 w-7 h-7 rounded-lg bg-accent hover:bg-accenthover text-white flex items-center justify-center transition-all shadow-sm hover:scale-105"
+                        class="absolute right-2.5 w-8 h-8 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover hover:to-purple-700 text-white flex items-center justify-center transition-all shadow-md active:scale-90"
                     >
                         <i class="fa-solid fa-paper-plane text-[10px]"></i>
                     </button>
@@ -303,90 +286,96 @@
         </main>
 
         <!-- VIEW 3: CODE SANDBOX -->
-        <div id="view-sandbox" class="flex-1 flex flex-col p-3.5 w-full hidden space-y-3 overflow-y-auto view-transition">
-            <div class="flex items-center justify-between border-b border-darkborder pb-2.5">
-                <h2 class="text-sm font-bold text-white flex items-center space-x-1.5">
-                    <i class="fa-solid fa-code text-neonpurple text-xs"></i>
+        <div id="view-sandbox" class="flex-1 flex flex-col p-4 w-full hidden space-y-3.5 overflow-y-auto view-section z-10">
+            <div class="flex items-center justify-between pb-1">
+                <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+                    <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex items-center justify-center text-neonpurple text-xs">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
                     <span>Code Sandbox</span>
                 </h2>
-                <div class="flex items-center space-x-1.5">
-                    <select id="sandbox-lang" class="bg-cardbg border border-darkborder text-[11px] rounded px-2 py-1 text-slate-200 focus:outline-none">
+                <div class="flex items-center space-x-2">
+                    <select id="sandbox-lang" class="bg-cardbg border border-darkborder text-[11px] rounded-xl px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-purple-500">
                         <option value="html">HTML/JS</option>
                         <option value="python">Python</option>
                     </select>
-                    <button onclick="runSandboxCode()" class="px-3 py-1 rounded bg-accent hover:bg-accenthover text-white text-[11px] font-medium transition-all shadow-sm">
+                    <button onclick="runSandboxCode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-white text-[11px] font-medium transition-all shadow-md active:scale-95">
                         Jalankan
                     </button>
                 </div>
             </div>
 
             <div class="flex flex-col space-y-2 flex-1">
-                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Editor Kode</span>
-                <textarea id="sandbox-input" class="w-full h-36 bg-cardbg border border-darkborder rounded-xl p-3 code-font text-[11px] text-slate-200 focus:outline-none focus:border-purple-600 resize-none" placeholder="Ketik kode...">&lt;div style="padding: 10px; font-family: sans-serif;"&gt;
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider pl-1">Editor Kode</span>
+                <textarea id="sandbox-input" class="w-full h-36 bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 code-font text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner" placeholder="Ketik kode...">&lt;div style="padding: 10px; font-family: sans-serif;"&gt;
   &lt;h3 style="color: #8b5cf6;"&gt;Sandbox Exelyn&lt;/h3&gt;
-  &lt;button onclick="alert('Berhasil!')" style="background:#8b5cf6; color:white; border:none; padding:5px 10px; border-radius:4px;"&gt;Klik&lt;/button&gt;
+  &lt;button onclick="alert('Berhasil!')" style="background:#8b5cf6; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;"&gt;Klik&lt;/button&gt;
 &lt;/div&gt;</textarea>
             </div>
-            <div class="flex flex-col space-y-2 flex-1 pb-4">
-                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Output</span>
-                <div class="w-full h-40 bg-cardbg border border-darkborder rounded-xl overflow-hidden flex flex-col">
+            <div class="flex flex-col space-y-2 flex-1 pb-2">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider pl-1">Output</span>
+                <div class="w-full h-40 bg-cardbg/90 border border-darkborder rounded-2xl overflow-hidden flex flex-col glow-effect">
                     <div id="sandbox-output-container" class="w-full flex-1 bg-[#05030a] overflow-auto">
                         <iframe id="sandbox-iframe" class="w-full h-full border-none"></iframe>
-                        <pre id="sandbox-console" class="p-3 code-font text-[11px] text-slate-300 hidden whitespace-pre-wrap"></pre>
+                        <pre id="sandbox-console" class="p-3.5 code-font text-[11px] text-slate-300 hidden whitespace-pre-wrap"></pre>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- VIEW 4: CYBERSECURITY TOOLS UTILITY -->
-        <div id="view-tools" class="flex-1 flex flex-col p-3.5 w-full hidden space-y-4 overflow-y-auto view-transition">
-            <div class="border-b border-darkborder pb-2.5">
-                <h2 class="text-sm font-bold text-white flex items-center space-x-1.5">
-                    <i class="fa-solid fa-toolbox text-accent text-xs"></i>
+        <div id="view-tools" class="flex-1 flex flex-col p-4 w-full hidden space-y-4 overflow-y-auto view-section z-10">
+            <div class="pb-1">
+                <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+                    <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex items-center justify-center text-accent text-xs">
+                        <i class="fa-solid fa-toolbox"></i>
+                    </div>
                     <span>Cybersecurity Utilities</span>
                 </h2>
             </div>
 
-            <div class="space-y-3.5 pb-4">
+            <div class="space-y-4 pb-4">
                 <!-- Tool 1 -->
-                <div class="bg-cardbg border border-darkborder rounded-xl p-3 space-y-2.5 glow-effect">
-                    <h3 class="text-xs font-semibold text-white flex items-center space-x-1.5">
+                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                    <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-lock text-neonpurple text-[10px]"></i>
                         <span>Base64 Encoder / Decoder</span>
                     </h3>
-                    <textarea id="tool-b64-input" rows="2" placeholder="Teks..." class="w-full bg-darker border border-darkborder rounded-lg p-2.5 text-[11px] text-slate-200 focus:outline-none focus:border-purple-600 resize-none"></textarea>
+                    <textarea id="tool-b64-input" rows="2" placeholder="Masukkan teks..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner"></textarea>
                     <div class="flex space-x-2">
-                        <button onclick="toolBase64('encode')" class="flex-1 py-1.5 rounded-lg bg-purple-900/40 border border-purple-700/40 text-[11px] font-medium text-purple-200 hover:bg-purple-800/40 transition-colors">Encode</button>
-                        <button onclick="toolBase64('decode')" class="flex-1 py-1.5 rounded-lg bg-purple-900/40 border border-purple-700/40 text-[11px] font-medium text-purple-200 hover:bg-purple-800/40 transition-colors">Decode</button>
+                        <button onclick="toolBase64('encode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Encode</button>
+                        <button onclick="toolBase64('decode')" class="flex-1 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-[11px] font-medium text-purple-200 hover:bg-purple-600/30 transition-all active:scale-95 shadow-sm">Decode</button>
                     </div>
-                    <input id="tool-b64-output" readonly placeholder="Hasil..." class="w-full bg-darker border border-darkborder rounded-lg p-2.5 text-[11px] text-slate-400 focus:outline-none">
+                    <input id="tool-b64-output" readonly placeholder="Hasil..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-400 focus:outline-none shadow-inner">
                 </div>
 
                 <!-- Tool 2 -->
-                <div class="bg-cardbg border border-darkborder rounded-xl p-3 space-y-2.5 glow-effect">
-                    <h3 class="text-xs font-semibold text-white flex items-center space-x-1.5">
+                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                    <h3 class="text-xs font-semibold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-hashtag text-neonpurple text-[10px]"></i>
                         <span>SHA-256 Hash Generator</span>
                     </h3>
-                    <textarea id="tool-hash-input" rows="2" placeholder="Teks hash..." class="w-full bg-darker border border-darkborder rounded-lg p-2.5 text-[11px] text-slate-200 focus:outline-none focus:border-purple-600 resize-none"></textarea>
-                    <button onclick="toolGenerateHash()" class="w-full py-1.5 rounded-lg bg-accent hover:bg-accenthover text-[11px] font-medium text-white shadow-sm transition-all">Generate SHA-256</button>
-                    <input id="tool-hash-output" readonly placeholder="Hasil Hash..." class="w-full bg-darker border border-darkborder rounded-lg p-2.5 text-[11px] text-slate-400 focus:outline-none code-font">
+                    <textarea id="tool-hash-input" rows="2" placeholder="Masukkan teks hash..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-200 focus:outline-none focus:border-purple-500 resize-none shadow-inner"></textarea>
+                    <button onclick="toolGenerateHash()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-accent to-purple-600 hover:from-accenthover text-[11px] font-medium text-white shadow-md active:scale-95 transition-all">Generate SHA-256</button>
+                    <input id="tool-hash-output" readonly placeholder="Hasil Hash..." class="w-full bg-darker/70 border border-darkborder rounded-xl p-3 text-[11px] text-slate-400 focus:outline-none code-font shadow-inner">
                 </div>
             </div>
         </div>
 
         <!-- VIEW 5: SETTINGS -->
-        <div id="view-settings" class="flex-1 flex flex-col items-center justify-start p-3.5 hidden overflow-y-auto view-transition">
-            <div class="max-w-md w-full space-y-4 pt-2 pb-4">
-                <div class="flex items-center justify-between border-b border-darkborder pb-3">
-                    <h2 class="text-sm font-bold text-white flex items-center space-x-1.5">
-                        <i class="fa-solid fa-gear text-accent text-xs"></i>
+        <div id="view-settings" class="flex-1 flex flex-col items-center justify-start p-4 hidden overflow-y-auto view-section z-10">
+            <div class="max-w-md w-full space-y-4 pt-1 pb-4">
+                <div class="pb-2">
+                    <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+                        <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex items-center justify-center text-accent text-xs">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
                         <span>Pengaturan Sistem</span>
                     </h2>
                 </div>
 
                 <!-- TTS Settings -->
-                <div class="bg-cardbg border border-darkborder rounded-xl p-3.5 space-y-3 glow-effect">
+                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Suara AI</h3>
                     <div class="flex items-center justify-between">
                         <div>
@@ -395,16 +384,16 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="setting-tts" class="sr-only peer">
-                            <div class="w-8 h-4 bg-darkborder peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-accent"></div>
+                            <div class="w-9 h-5 bg-darkborder peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-accent shadow-inner"></div>
                         </label>
                     </div>
                 </div>
 
                 <!-- Creator Info -->
-                <div class="bg-cardbg border border-darkborder rounded-xl p-3.5 space-y-2.5 glow-effect">
+                <div class="bg-cardbg/80 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Informasi Pembuat</h3>
-                    <div class="flex items-center space-x-2.5 pt-1">
-                        <div class="w-8 h-8 rounded-lg bg-purple-950 border border-purple-800/50 flex items-center justify-center text-neonpurple font-bold text-xs shadow-inner">
+                    <div class="flex items-center space-x-3 pt-1">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-900 to-accent border border-purple-700/50 flex items-center justify-center text-white font-bold text-sm shadow-md">
                             E
                         </div>
                         <div>
@@ -467,9 +456,9 @@
                     const btn = document.getElementById(`nav-btn-${t}`);
                     if (btn) {
                         if (t === viewName) {
-                            btn.className = "px-2 py-1 rounded-md text-[11px] font-medium bg-purple-900/40 text-purple-300 border border-purple-700/40 transition-all";
+                            btn.className = "px-2.5 py-1 rounded-lg text-[11px] font-medium bg-purple-600/30 text-purple-200 border border-purple-500/30 transition-all shadow-sm";
                         } else {
-                            btn.className = "px-2 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-white transition-all";
+                            btn.className = "px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:text-white transition-all";
                         }
                     }
                 });
@@ -482,11 +471,11 @@
             const btnCode = document.getElementById('mode-code');
 
             if (mode === 'pentest') {
-                btnPentest.className = "px-2 py-0.5 rounded transition-all text-white bg-purple-900/40 text-purple-300 font-medium border border-purple-700/30";
-                btnCode.className = "px-2 py-0.5 rounded transition-all text-slate-400 hover:text-white";
+                btnPentest.className = "px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm";
+                btnCode.className = "px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white";
             } else {
-                btnCode.className = "px-2 py-0.5 rounded transition-all text-white bg-purple-900/40 text-purple-300 font-medium border border-purple-700/30";
-                btnPentest.className = "px-2 py-0.5 rounded transition-all text-slate-400 hover:text-white";
+                btnCode.className = "px-2.5 py-1 rounded-lg transition-all text-white bg-purple-600/30 text-purple-200 border border-purple-500/30 font-medium shadow-sm";
+                btnPentest.className = "px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white";
             }
         }
 
@@ -494,11 +483,11 @@
             chatHistory = [];
             localStorage.removeItem('exelyn_chat_history');
             document.getElementById('chat-container').innerHTML = `
-                <div class="flex items-start space-x-2.5">
-                    <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-[10px]">
+                <div class="flex items-start space-x-2.5 animate-fade-in">
+                    <div class="w-7 h-7 rounded-xl bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-xs shadow-md">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="bg-cardbg border border-darkborder rounded-xl p-3 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
+                    <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
                         <p class="font-medium text-white">Sesi dibersihkan. Mari mulai dari awal! 🔄</p>
                     </div>
                 </div>
@@ -554,19 +543,19 @@
             const isUser = sender === 'user';
             
             const wrapper = document.createElement('div');
-            wrapper.className = `flex items-start space-x-2.5 ${isUser ? 'justify-end' : ''} view-transition`;
+            wrapper.className = `flex items-start space-x-2.5 animate-fade-in ${isUser ? 'justify-end' : ''}`;
 
             const avatar = document.createElement('div');
-            avatar.className = `w-6 h-6 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] ${
-                isUser ? 'bg-purple-600 text-white order-2 ml-2 shadow-sm' : 'bg-purple-900/40 border border-purple-700/40 text-neonpurple order-1'
+            avatar.className = `w-7 h-7 rounded-xl flex-shrink-0 flex items-center justify-center text-xs shadow-md ${
+                isUser ? 'bg-gradient-to-r from-accent to-purple-600 text-white order-2 ml-2' : 'bg-purple-900/40 border border-purple-700/40 text-neonpurple order-1'
             }`;
             avatar.innerHTML = isUser ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-shield-halved"></i>';
 
             const bubble = document.createElement('div');
-            bubble.className = `rounded-xl p-3 text-xs leading-relaxed order-1 ai-content ${
+            bubble.className = `rounded-2xl p-3.5 text-xs leading-relaxed order-1 ai-content ${
                 isUser 
-                ? 'bg-purple-600/20 border border-purple-500/30 text-slate-100 max-w-[260px]' 
-                : 'bg-cardbg border border-darkborder text-slate-200 glow-effect w-full max-w-[280px] order-2'
+                ? 'bg-purple-600/25 border border-purple-500/30 text-slate-100 max-w-[260px] shadow-sm' 
+                : 'bg-cardbg/90 backdrop-blur-md border border-darkborder text-slate-200 glow-effect w-full max-w-[280px] order-2'
             }`;
 
             if (isUser) {
@@ -602,10 +591,10 @@
             let codeBlocks = [];
             let protectedText = sanitizedText.replace(/```([a-z]*)\n([\s\S]*?)```/g, function(match, lang, code) {
                 let index = codeBlocks.length;
-                codeBlocks.push(`<div class="my-2.5 rounded-lg overflow-hidden border border-purple-900/40 bg-[#05030a] code-font text-[11px] code-block-wrapper">
-                    <div class="bg-purple-950/50 px-3 py-1.5 border-b border-purple-900/30 text-[9px] text-purple-300 font-mono flex justify-between items-center">
+                codeBlocks.push(`<div class="my-2.5 rounded-xl overflow-hidden border border-purple-900/40 bg-[#05030a] code-font text-[11px] code-block-wrapper shadow-inner">
+                    <div class="bg-purple-950/60 px-3 py-1.5 border-b border-purple-900/30 text-[9px] text-purple-300 font-mono flex justify-between items-center">
                         <span class="uppercase font-semibold tracking-wider">${lang || 'kode'}</span>
-                        <button onclick="copyCodeSnippet(this)" class="hover:text-white transition-all flex items-center space-x-1 text-slate-400 bg-purple-900/30 px-1.5 py-0.5 rounded border border-purple-800/30">
+                        <button onclick="copyCodeSnippet(this)" class="hover:text-white transition-all flex items-center space-x-1 text-slate-400 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-800/30">
                             <i class="fa-regular fa-copy"></i>
                             <span>Salin</span>
                         </button>
@@ -722,12 +711,12 @@
             const container = document.getElementById('chat-container');
             const loadingDiv = document.createElement('div');
             loadingDiv.id = 'temp-loader';
-            loadingDiv.className = 'flex items-start space-x-2.5 view-transition';
+            loadingDiv.className = 'flex items-start space-x-2.5 animate-fade-in';
             loadingDiv.innerHTML = `
-                <div class="w-6 h-6 rounded-lg bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-[10px]">
+                <div class="w-7 h-7 rounded-xl bg-purple-900/40 border border-purple-700/40 flex-shrink-0 flex items-center justify-center text-neonpurple text-xs shadow-md">
                     <i class="fa-solid fa-shield-halved animate-pulse"></i>
                 </div>
-                <div class="bg-cardbg border border-darkborder rounded-xl p-2.5 text-[11px] text-slate-400 flex items-center space-x-2">
+                <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3 text-xs text-slate-400 flex items-center space-x-2 glow-effect">
                     <i class="fa-solid fa-circle-notch animate-spin text-accent"></i>
                     <span>Exelyn menganalisis...</span>
                 </div>
@@ -773,7 +762,7 @@
             if (val === 'python') {
                 input.value = "import sys\nprint('Python:', sys.version)\n\na, b = 10, 20\nprint(f'Hasil: {a + b}')";
             } else {
-                input.value = '<div style="padding: 10px; font-family: sans-serif;">\n  <h3 style="color: #8b5cf6;">Sandbox Exelyn</h3>\n  <button onclick="alert(\'Berhasil!\')" style="background:#8b5cf6; color:white; border:none; padding:5px 10px; border-radius:4px;">Klik</button>\n</div>';
+                input.value = '<div style="padding: 10px; font-family: sans-serif;">\n  <h3 style="color: #8b5cf6;">Sandbox Exelyn</h3>\n  <button onclick="alert(\'Berhasil!\')" style="background:#8b5cf6; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;">Klik</button>\n</div>';
             }
             updateSandboxPreview();
         });
