@@ -31,13 +31,22 @@
                         fadeInScale: {
                             '0%': { opacity: '0', transform: 'scale(0.97)' },
                             '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        glitchAnim: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)', filter: 'hue-rotate(90deg)' },
+                            '40%': { transform: 'translate(-2px, -2px)', filter: 'hue-rotate(180deg)' },
+                            '60%': { transform: 'translate(2px, 2px)', filter: 'hue-rotate(270deg)' },
+                            '80%': { transform: 'translate(2px, -1px)', filter: 'hue-rotate(45deg)' },
+                            '100%': { transform: 'translate(0)', filter: 'none' }
                         }
                     },
                     animation: {
                         'float-slow': 'floatOrb 8s ease-in-out infinite',
                         'float-delayed': 'floatOrb 10s ease-in-out 3s infinite',
                         'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
-                        'fade-in': 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                        'fade-in': 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'glitch': 'glitchAnim 0.3s ease infinite'
                     }
                 }
             }
@@ -77,6 +86,17 @@
         }
         #matrix-canvas.active {
             opacity: 0.45;
+        }
+
+        /* Cyber Sparks Canvas Overlay */
+        #sparks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
         }
 
         /* Phone Frame Wrapper */
@@ -163,6 +183,9 @@
     <!-- Matrix Rain Background Canvas -->
     <canvas id="matrix-canvas"></canvas>
 
+    <!-- Cyber Sparks Ambient Canvas -->
+    <canvas id="sparks-canvas"></canvas>
+
     <!-- Phone Wrapper Container -->
     <div class="phone-frame">
 
@@ -178,8 +201,8 @@
                     <span>Menu</span>
                 </button>
                 <div class="flex items-center space-x-1.5 pl-1">
-                    <span class="font-semibold tracking-wide text-xs">EXELYN</span>
-                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded-full bg-purple-950/80 text-neonpurple border border-purple-900/50 shadow-inner">v1.1</span>
+                    <span id="header-brand-title" class="font-semibold tracking-wide text-xs transition-all">EXELYN</span>
+                    <span class="text-[8px] font-mono px-1.5 py-0.5 rounded-full bg-purple-950/80 text-neonpurple border border-purple-900/50 shadow-inner">v1.2</span>
                 </div>
             </div>
 
@@ -395,6 +418,21 @@
                     </h2>
                 </div>
 
+                <!-- Ambient Sparks Settings -->
+                <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
+                    <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Efek Ambient Visual</h3>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-200">Cyber Sparks FX</p>
+                            <p class="text-[10px] text-slate-400">Kilatan partikel api siber di latar belakang</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="setting-sparks" class="sr-only peer" checked onchange="toggleSparksFX(this)">
+                            <div class="w-9 h-5 bg-darkborder peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-accent shadow-inner"></div>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- Matrix Rain Effect Settings -->
                 <div class="bg-cardbg/85 backdrop-blur-md border border-darkborder rounded-2xl p-4 space-y-3 glow-effect">
                     <h3 class="text-xs font-semibold text-white uppercase tracking-wider">Tampilan Latar Belakang</h3>
@@ -476,6 +514,111 @@
         let chatHistory = [];
         let pyodideInstance = null;
 
+        // --- CYBER SPARKS AMBIENT FX ---
+        const sparksCanvas = document.getElementById('sparks-canvas');
+        const sparksCtx = sparksCanvas.getContext('2d');
+        let sparksArray = [];
+        let sparksRunning = true;
+
+        function resizeSparksCanvas() {
+            sparksCanvas.width = window.innerWidth;
+            sparksCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeSparksCanvas);
+        resizeSparksCanvas();
+
+        class Spark {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * sparksCanvas.width;
+                this.y = sparksCanvas.height + Math.random() * 50;
+                this.size = Math.random() * 2.2 + 0.5;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.life = Math.random() * 150 + 50;
+                this.maxLife = this.life;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.life--;
+                if (this.life <= 0 || this.y < 0) {
+                    this.reset();
+                }
+            }
+            draw() {
+                sparksCtx.save();
+                sparksCtx.globalAlpha = (this.life / this.maxLife) * this.opacity;
+                sparksCtx.fillStyle = '#c084fc';
+                sparksCtx.shadowBlur = 8;
+                sparksCtx.shadowColor = '#8b5cf6';
+                sparksCtx.beginPath();
+                sparksCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                sparksCtx.fill();
+                sparksCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 25; i++) {
+            sparksArray.push(new Spark());
+        }
+
+        function animateSparks() {
+            if (!sparksRunning) return;
+            sparksCtx.clearRect(0, 0, sparksCanvas.width, sparksCanvas.height);
+            sparksArray.forEach(spark => {
+                spark.update();
+                spark.draw();
+            });
+            requestAnimationFrame(animateSparks);
+        }
+        animateSparks();
+
+        function toggleSparksFX(checkbox) {
+            playSound('click');
+            sparksRunning = checkbox.checked;
+            if (sparksRunning) {
+                animateSparks();
+            } else {
+                sparksCtx.clearRect(0, 0, sparksCanvas.width, sparksCanvas.height);
+            }
+        }
+        // ------------------------------
+
+        // --- DYNAMIC HEADER GLITCH FX ---
+        const glitchBrandNames = ["EXELYN", "EXELYN_SOC", "SEC_SYS", "ROOT@EXELYN", "AI_CORE_V1"];
+        function triggerHeaderGlitch() {
+            const brandEl = document.getElementById('header-brand-title');
+            if (!brandEl) return;
+
+            const originalText = "EXELYN";
+            let glitchCount = 0;
+            const maxGlitch = 3;
+
+            brandEl.classList.add('animate-glitch');
+
+            const glitchInterval = setInterval(() => {
+                brandEl.textContent = glitchBrandNames[Math.floor(Math.random() * glitchBrandNames.length)];
+                glitchCount++;
+                if (glitchCount >= maxGlitch) {
+                    clearInterval(glitchInterval);
+                    brandEl.textContent = originalText;
+                    brandEl.classList.remove('animate-glitch');
+                }
+            }, 120);
+        }
+
+        // Picu efek glitch acak setiap 8 hingga 15 detik secara berkala
+        setInterval(() => {
+            if (Math.random() > 0.3) {
+                triggerHeaderGlitch();
+            }
+        }, 10000);
+        // --------------------------------
+
         // --- MATRIX RAIN SCRIPT LOGIC (WITH MOUSE/TOUCH REACTION) ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -538,12 +681,10 @@
                 let xPos = i * fontSize;
                 let yPos = rainDrops[i] * fontSize;
 
-                // Interactivity: Jarak mouse/touch terhadap kolom tetesan matrix
                 let distX = mouseX - xPos;
                 let distY = mouseY - yPos;
                 let distance = Math.sqrt(distX * distX + distY * distY);
 
-                // Jika kursor mendekati tetesan hujan (< 80px), tetesan terdorong atau bergeser
                 let renderX = xPos;
                 if (distance < 80) {
                     let pushFactor = (80 - distance) / 80;
