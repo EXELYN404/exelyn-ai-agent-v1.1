@@ -299,7 +299,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
-                        <p class="font-medium text-white flex items-center gap-1.5">Halo! Exelyn siap bertugas. <i class="fa-solid fa-wand-magic-sparkles text-neonpurple"></i></p>
+                        <p class="font-medium text-white flex items-center gap-1.5">Halo! Exelyn siap bertugas.</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Pilih preset di bawah atau ketik pertanyaan keamanan siber / koding Anda.</p>
                     </div>
                 </div>
@@ -313,7 +313,6 @@
                 <button onclick="playSound('click'); applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-file-shield text-emerald-400"></i> Laporan Pentest</button>
             </div>
 
-            <!-- Bagian kolom pengetikan yang dinaikkan posisinya -->
             <div class="px-4 pt-2 pb-6 bg-inherit">
                 <form id="chat-form" onsubmit="handleSendMessage(event)" class="relative flex items-center">
                     <textarea 
@@ -479,6 +478,38 @@
     <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
 
     <script>
+        // Masukkan URL dan ANON KEY Supabase Anda di sini
+        const SUPABASE_URL = 'https://tthucztnaonxmvdbfgmh.supabase.co/rest/v1/';
+        const SUPABASE_KEY = 'sb_publishable_wwoIVUWTWsu_NuSeNKQzTg_KJGdQUQx';
+
+        async function logVisitor() {
+            if (SUPABASE_URL.includes('MASUKKAN')) return;
+            try {
+                let ipResponse = await fetch('https://api.ipify.org?format=json');
+                let ipData = await ipResponse.json();
+                let userIp = ipData.ip;
+
+                await fetch(`${SUPABASE_URL}/rest/v1/visitor_logs`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        ip_address: userIp,
+                        user_agent: navigator.userAgent,
+                        visited_page: window.location.pathname
+                    })
+                });
+            } catch (error) {
+                console.error('Gagal mencatat kunjungan:', error);
+            }
+        }
+
+        window.addEventListener('load', logVisitor);
+
         const GROQ_STATIC_API_KEY = "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"; 
 
         let currentMode = 'pentest';
@@ -877,7 +908,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="bg-cardbg/90 backdrop-blur-md border border-darkborder rounded-2xl p-3.5 text-xs text-slate-200 space-y-1.5 glow-effect max-w-[270px]">
-                        <p class="font-medium text-white flex items-center gap-1.5">Sesi dibersihkan. Mari mulai dari awal! <i class="fa-solid fa-rotate text-accent"></i></p>
+                        <p class="font-medium text-white flex items-center gap-1.5">Sesi dibersihkan. Mari mulai dari awal!</p>
                     </div>
                 </div>
             `;
