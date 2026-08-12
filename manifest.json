@@ -1,12 +1,16 @@
 {
-  "background_color": "#ffffff",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "EXELYN AI AGENT",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "EXELYN_AI _AGENT",
+  "name": "Exelyn AI Agent",
+  "short_name": "ExelynAI",
   "start_url": "/",
-  "theme_color": "#ffffff"
-  "description": "Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities."
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "description": "Sistem AI cerdas khusus keamanan siber, sandbox koding, dan utilities.",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
