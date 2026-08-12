@@ -1,0 +1,11 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "EXELYN AI AGENT",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "EXELYN_AI _AGENT",
+  "start_url": "/",
+  "theme_color": "#ffffff"
+}
