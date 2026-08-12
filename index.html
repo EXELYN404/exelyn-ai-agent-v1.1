@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Exelyn Agent v1 - Sistem AI Cybersecurity & Coding</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -313,13 +313,14 @@
                 <button onclick="playSound('click'); applyPreset('Buat kerangka laporan celah keamanan (Vulnerability Report)')" class="text-[11px] px-3 py-1.5 rounded-xl bg-cardbg/90 border border-darkborder text-slate-300 hover:border-purple-500 hover:text-white transition-all shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-file-shield text-emerald-400"></i> Laporan Pentest</button>
             </div>
 
-            <div class="p-3.5 bg-inherit">
+            <!-- Bagian kolom pengetikan yang dinaikkan posisinya -->
+            <div class="px-4 pt-2 pb-6 bg-inherit">
                 <form id="chat-form" onsubmit="handleSendMessage(event)" class="relative flex items-center">
                     <textarea 
                         id="user-input" 
                         rows="1" 
                         placeholder="Ketik pesan..." 
-                        class="w-full bg-cardbg/90 backdrop-blur-md border border-darkborder focus:border-purple-500 rounded-2xl px-4 py-3 pr-11 text-xs text-slate-200 placeholder-slate-500 focus:outline-none resize-none max-h-24 transition-all shadow-inner"
+                        class="w-full bg-cardbg/90 backdrop-blur-md border border-darkborder focus:border-purple-500 rounded-2xl px-4 py-3 pr-11 text-sm md:text-xs text-slate-200 placeholder-slate-500 focus:outline-none resize-none max-h-24 transition-all shadow-inner"
                         onkeydown="handleKeyDown(event)"
                     ></textarea>
                     <button 
@@ -696,7 +697,6 @@
             }
         });
 
-        // Pembangkit Suara Sci-Fi Technology menggunakan Web Audio API murni
         function playSound(type) {
             const soundEnabled = document.getElementById('setting-sound')?.checked;
             if (!soundEnabled) return;
@@ -705,13 +705,11 @@
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 
                 if (type === 'click') {
-                    // Efek Sci-Fi Beep / Blip bernada tinggi dengan frequency sweep cepat dan filter
                     const osc = audioCtx.createOscillator();
                     const filter = audioCtx.createBiquadFilter();
                     const gainNode = audioCtx.createGain();
 
                     osc.type = 'sawtooth';
-                    // Sweep frekuensi cepat khas antarmuka terminal sci-fi (1200Hz turun ke 400Hz)
                     osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
                     osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
 
@@ -729,13 +727,12 @@
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.08);
                 } else if (type === 'complete') {
-                    // Efek Sci-Fi Success Chime (Dua nada berurutan bernuansa robotik futuristik)
                     const now = audioCtx.currentTime;
                     
                     const osc1 = audioCtx.createOscillator();
                     const gain1 = audioCtx.createGain();
                     osc1.type = 'sine';
-                    osc1.frequency.setValueAtTime(587.33, now); // D5
+                    osc1.frequency.setValueAtTime(587.33, now); 
                     osc1.frequency.exponentialRampToValueAtTime(880, now + 0.12);
                     gain1.gain.setValueAtTime(0.04, now);
                     gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
@@ -748,7 +745,7 @@
                     const osc2 = audioCtx.createOscillator();
                     const gain2 = audioCtx.createGain();
                     osc2.type = 'triangle';
-                    osc2.frequency.setValueAtTime(1174.66, now + 0.12); // D6
+                    osc2.frequency.setValueAtTime(1174.66, now + 0.12); 
                     osc2.frequency.exponentialRampToValueAtTime(1760, now + 0.25);
                     gain2.gain.setValueAtTime(0.04, now + 0.12);
                     gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
