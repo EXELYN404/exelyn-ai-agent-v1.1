@@ -518,6 +518,9 @@
         let currentMode = 'pentest';
         let chatHistory = [];
         let pyodideInstance = null;
+        
+        // Variabel pelacak animasi typewriter aktif
+        let activeTypewriter = null;
 
         function initBackgroundAudio() {
             const bgAudio = document.getElementById('bg-audio');
@@ -851,7 +854,22 @@
             updateSandboxPreview();
         });
 
+        function completeActiveTypewriter() {
+            if (activeTypewriter) {
+                clearTimeout(activeTypewriter.timeoutId);
+                activeTypewriter.element.innerHTML = formatAIResponse(activeTypewriter.fullText);
+                activeTypewriter = null;
+                const container = document.getElementById('chat-container');
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
         function switchView(viewName) {
+            // Jika keluar dari menu chat, selesaikan animasi teks yang sedang berjalan
+            if (viewName !== 'chat') {
+                completeActiveTypewriter();
+            }
+
             ['home', 'chat', 'sandbox', 'tools', 'settings'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
@@ -884,6 +902,16 @@
             }, 50);
         }
 
+        // Listener jika tab/halaman disembunyikan atau keluar aplikasi
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                completeActiveTypewriter();
+            }
+        });
+        window.addEventListener('pagehide', () => {
+            completeActiveTypewriter();
+        });
+
         function setMode(mode) {
             currentMode = mode;
             const btnPentest = document.getElementById('mode-pentest');
@@ -903,6 +931,7 @@
                 window.speechSynthesis.cancel();
             }
 
+            completeActiveTypewriter();
             chatHistory = [];
             localStorage.removeItem('exelyn_chat_history');
             document.getElementById('chat-container').innerHTML = `
@@ -1004,25 +1033,41 @@
 
         function typeWriterEffect(element, fullText) {
             let i = 0;
-            const speed = 12;
+            
+            // Kecepatan dinamis: Teks pendek normal (~14ms), teks panjang ngebut (bisa sampai ~2ms)
+            let speed = 14;
+            if (fullText.length > 500) {
+                speed = 4;
+            } else if (fullText.length > 200) {
+                speed = 8;
+            }
+
             let currentDisplay = "";
             
             function type() {
-                if (i < fullText.length) {
-                    currentDisplay += fullText.charAt(i);
-                    element.innerHTML = formatAIResponse(currentDisplay + "▌");
-                    i++;
-                    const container = document.getElementById('chat-container');
-                    container.scrollTop = container.scrollHeight;
-                    setTimeout(type, speed);
-                } else {
-                    element.innerHTML = formatAIResponse(fullText);
-                    playSound('complete');
-                    const container = document.getElementById('chat-container');
-                    container.scrollTop = container.scrollHeight;
+                if (activeTypewriter && activeTypewriter.element === element) {
+                    if (i < fullText.length) {
+                        currentDisplay += fullText.charAt(i);
+                        element.innerHTML = formatAIResponse(currentDisplay + "▌");
+                        i++;
+                        const container = document.getElementById('chat-container');
+                        container.scrollTop = container.scrollHeight;
+                        activeTypewriter.timeoutId = setTimeout(type, speed);
+                    } else {
+                        element.innerHTML = formatAIResponse(fullText);
+                        playSound('complete');
+                        activeTypewriter = null;
+                        const container = document.getElementById('chat-container');
+                        container.scrollTop = container.scrollHeight;
+                    }
                 }
             }
-            type();
+
+            activeTypewriter = {
+                element: element,
+                fullText: fullText,
+                timeoutId: setTimeout(type, speed)
+            };
         }
 
         function formatAIResponse(text) {
